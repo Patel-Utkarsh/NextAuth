@@ -1,7 +1,7 @@
 
 "use server"
 import userSchema from '@/models/user';
-import {z} from 'Zod'
+import {z} from 'zod'
 
 const signUpValidation = z.object({
     name : z.string().min(2,{message : 'Name must be at least 2 characters long.'}),

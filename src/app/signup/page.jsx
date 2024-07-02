@@ -2,18 +2,30 @@
 
 import { useState } from "react";
 import {createEntry} from "../../lib/definitions";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 export default function SignUp() {
+  const route = useRouter();
   const [errors,setErrors] = useState(null);
   console.log(errors);
 
   async function handleSubmit(event) {
+    toast.loading('...loding')
     event.preventDefault();
     const formData = new FormData(event.target);
     const result = await createEntry(formData);
     console.log('submitting form ...');
+    toast.dismiss();
 
     if(result==1) {
+      toast.success('Account Created Successfully');
+      setTimeout(() => {
+        route.push('/login');
+        
+      }, 1000);
+
+      
       console.log('form submitted successully')
     }
 

@@ -1,8 +1,7 @@
 import mongoose from 'mongoose';
 
-
 // Ensure the MONGODB_URI is defined
-if (!MONGODB_URI) {
+if (!process.env.MONGODB_URL) {
   throw new Error('Please define the MONGODB_URI environment variable inside .env.local');
 }
 
@@ -27,7 +26,7 @@ async function dbConnect() {
       useUnifiedTopology: true,
     };
 
-    cached.promise = mongoose.connect(process.env.MONGODB_URI, opts).then((mongoose) => {
+    cached.promise = mongoose.connect(process.env.MONGODB_URL, opts).then((mongoose) => {
       console.log('db connected successfully');
       return mongoose;
     }).catch((error) => {

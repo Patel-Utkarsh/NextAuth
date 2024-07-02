@@ -7,9 +7,8 @@ import DeleteTodoModal from "@/components/DeleteTodoModal";
 
 export default function Home() {
   const [addtodo,setAddTodo] = useState(false);
-  const [deleteTodo,setDeleteTodo] = useState(true)
+  const [deleteTodo,setDeleteTodo] = useState(false)
   const [todosData, setTodosData] = useState(null);
-  console.log(todosData);
 
   async function fetchData() {
     const FetchData = await fetch("/api/todos/get", {
@@ -32,15 +31,15 @@ export default function Home() {
     );
 
   return (
-    <div className=" h-[100vh] bg-gray-100 text-black flex justify-center relative ">
+    <div className="  h-[100vh] bg-gray-100 text-black flex justify-center relative ">
       <div className="flex flex-col gap-5 mt-10">
         <p className="font-extrabold text-4xl">Todos List</p>
         <button onClick={()=> setAddTodo(true)} className="bg-[#646fef] px-4 py-2 text-white font-bold rounded-md">
           Add Task
         </button>
-        <div className="flex flex-col gap-4 h-[400px] overflow-auto text-black">
+        <div className="flex flex-col gap-4 w-[90vw] sm:h-[400px] overflow-auto text-black">
           {todosData.map((todo, index) => (
-            <div key={index} className="bg-white flex justify-between w-[600px] rounded-md p-3 shadow-md ">
+            <div key={index} className="bg-white flex justify-between w-[100%] sm:w-[600px] rounded-md p-3 shadow-md ">
               <div className="flex flex-col">
                 <p>{todo.title}</p>
                 <p>{new Date(parseInt(todo.createdAt)).toLocaleString()}</p>

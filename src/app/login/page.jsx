@@ -1,56 +1,46 @@
-"use client"
-import { redirect, useRouter } from 'next/navigation';
+"use client";
+import { redirect, useRouter } from "next/navigation";
 
-import { useState } from 'react';
-import toast from 'react-hot-toast';
-
+import { useState } from "react";
+import toast from "react-hot-toast";
 
 export default function LoginForm() {
-    const route = useRouter();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  
+  const route = useRouter();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   async function auth() {
-
+    toast.loading('Authenticating....')
     try {
-        const req = await fetch('/api/user/login',{
-            method : 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({email,password})
-        })
+      const req = await fetch("/api/user/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
 
-        const res = await req.json();
-        console.log(req);
-        if(res.success) {
-            toast.success('Logged in successfully')
-            setTimeout(()=>{
-                //route.push('/');
-
-            },1000)
-            
-        }
-
-        else {
-            toast.error(res.message)
-
-        }
-
+      const res = await req.json();
+      toast.dismiss();
+      if (res.success) {
+        toast.success("Logged in successfully");
+        setTimeout(() => {
+          route.push('/');
+        }, 1000);
+      } else {
+        toast.error(res.message);
+      }
+    } catch (err) {
+      toast.error('Invalid Credentials')
+      console.log(err);
     }
-
-    catch(err) {
-        console.log(err);
-    }
-   
   }
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
-   // console.log('Login attempted with:', { email, password });
-   auth();
+
+    // console.log('Login attempted with:', { email, password });
+    auth();
   };
 
   return (
@@ -98,7 +88,6 @@ export default function LoginForm() {
             </div>
           </div>
 
-          
           <div>
             <button
               type="submit"

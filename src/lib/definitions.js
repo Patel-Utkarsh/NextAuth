@@ -1,5 +1,6 @@
 
 "use server"
+import userSchema from '@/models/user';
 import {z} from 'Zod'
 
 const signUpValidation = z.object({
@@ -25,12 +26,24 @@ export async function createEntry(formData) {
     password: formData.get("password"),
   });
 
+  // create =await userSchema.create({name : validatedFields.name,email : validatedFields.email,password  : validatedFields.password});
+
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
     };
   } else {
-    return 1;
+    try {
+      console.log(validatedFields);
+      await userSchema.create({name : validatedFields.data.name,email : validatedFields.data.email,password  : validatedFields.data.password});
+      return 1;
+
+      
+    } catch (error) {
+      console.log(error)
+      return 0;
+      
+    }
   }
 }
 
